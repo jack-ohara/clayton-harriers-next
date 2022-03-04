@@ -1,3 +1,5 @@
+import { Page } from "../types/wordpress";
+
 export async function getPosts() {
   const postsRes = await fetch(process.env.WP_BASE_URL + "/posts?_embed");
   const posts = await postsRes.json();
@@ -25,7 +27,7 @@ export async function getEvent(slug: string) {
 
 export async function getSlugs(type: "posts" | "events") {
   let elements = [];
-  
+
   switch (type) {
     case "posts":
       elements = await getPosts();
@@ -43,4 +45,18 @@ export async function getSlugs(type: "posts" | "events") {
     };
   });
   return elementsIds;
+}
+
+export async function getPage(id: number) {
+  const page = await fetchFromWordpress(`pages/${id}`);
+
+  return await page.json() as Page;
+}
+
+async function fetchFromWordpress(relativeURL: string) {
+  if (!process.env.WP_BASE_URL) {
+    throw new Error("Wordpress base URL not found in environment variable")
+  }
+
+  return await fetch(`${process.env.WP_BASE_URL}${relativeURL.startsWith('/') ? relativeURL : `/${relativeURL}`}`);
 }
