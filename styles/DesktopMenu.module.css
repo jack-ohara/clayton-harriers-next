@@ -1,0 +1,133 @@
+.nav {
+    display: flex;
+    justify-content: center;
+}
+
+.nav>ul {
+    display: flex;
+    margin: 0.5em 0;
+    align-items: center;
+}
+
+.nav>ul>li {
+    list-style: none;
+    margin: 0;
+    position: relative;
+    padding: 0 0.7rem;
+    z-index: 10;
+}
+
+.nav>ul>li:first-of-type {
+    padding-left: 0;
+}
+
+.nav>ul>li:last-of-type {
+    padding-right: 0;
+}
+
+.dropdown ul {
+    display: flex;
+    margin: 0.4rem 0 0.5em 0;
+    max-height: 0;
+    position: absolute;
+    flex-direction: column;
+    overflow: hidden;
+    transition: max-height linear 200ms;
+    z-index: 1;
+    background: var(--light-grey);
+    width: max-content;
+    border-radius: 4px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    min-width: 150px;
+}
+
+.dropdown ul li {
+    margin: 0;
+    display: flex;
+}
+
+.dropdown ul li a {
+    padding: 0.5rem;
+    padding-right: 0.8rem;
+}
+
+.dropdown ul li:first-of-type a {
+    padding-top: 0.5rem;
+}
+
+.dropdown ul li:last-of-type a {
+    padding-bottom: 0.5rem;
+}
+
+.dropdown:hover ul,
+.dropdown:focus-within ul {
+    max-height: 500px;
+}
+
+.dropdown:hover svg,
+.dropdown:focus-within svg {
+    transform: rotate(0.25turn);
+    fill: var(--clayton-orange);
+}
+
+.dropdown a {
+    padding: 0;
+    flex-grow: 1;
+}
+
+.navItemTitle {
+    padding: 0;
+    font-size: 1.2em;
+    margin-bottom: 3px;
+    letter-spacing: normal;
+    display: flex;
+    align-items: center;
+    cursor: default;
+    font-weight: bold;
+    color: inherit;
+}
+
+.navItemTitle.isActiveRoute {
+    color: var(--clayton-orange);
+}
+
+.dropdownArrow {
+    margin-right: 0.3rem;
+    height: 8px;
+    width: 8px;
+    fill: initial;
+    transition: all linear 200ms;
+}
+
+.dropdownArrow.isActiveRoute {
+    fill: var(--clayton-orange);
+}
+
+.menuLink {
+    font-size: 1.2em;
+    font-weight: bold;
+    letter-spacing: normal;
+    padding: 0.8rem 0;
+    transition: text-decoration-color ease-in-out 120ms;
+    text-decoration: underline transparent solid 3px;
+    color: inherit;
+}
+
+.menuLink.isActiveRoute {
+    color: var(--clayton-orange);
+}
+
+.menuLink:hover,
+.menuLink:focus {
+    text-decoration-color: var(--clayton-orange);
+}
+
+.menuLink.small {
+    font-size: 1em;
+    text-decoration-thickness: 2px;
+}
+
+.menuLink.showBackground:hover,
+.menuLink.showBackground:focus {
+    background: #EAEAEA;
+}
