@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import styles from './Home.module.css'
 import bannerPic from '../public/clayton-runner-no-noise.png'
 import { getMenuData, getPage } from '../utils/wordpress'
 import pageIds from '../utils/wp-page-ids.json'

@@ -1,5 +1,5 @@
 import Link, { LinkProps } from "next/link"
-import styles from "../styles/StyledLink.module.css"
+import styles from "./StyledLink.module.css"
 
 type Props = React.PropsWithChildren<LinkProps> & {
   small: boolean;
@@ -9,7 +9,7 @@ type Props = React.PropsWithChildren<LinkProps> & {
 
 export default function StyledLink({ small, isActiveRoute, onClick, children, ...rest }: Props) {
   return (
-    <Link {...rest}>
+    <Link {...rest} passHref>
       <a
         className={`${styles.styledLink} ${small ? styles.small : ""} ${isActiveRoute ? styles.isActiveRoute : ""}`}
         onClick={onClick}

@@ -1,4 +1,4 @@
-import styles from "../../../styles/BurgerButton.module.css"
+import styles from "./BurgerButton.module.css"
 
 type Props = {
     isOpen: boolean;
