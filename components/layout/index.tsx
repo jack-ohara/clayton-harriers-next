@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
-import styles from "../styles/Layout.module.css";
-import { MenuItem } from "../types/wordpress";
-import Header from "./header";
+import styles from "./Layout.module.css";
+import { MenuItem } from "../../types/wordpress";
+import Header from "../header";
 
 type Props = {
     children: ReactNode;

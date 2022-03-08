@@ -1,5 +1,5 @@
 import { ReactNode } from "react"
-import styles from "../styles/DesktopComponent.module.css"
+import styles from "./DesktopComponent.module.css"
 
 interface Props {
     children: ReactNode

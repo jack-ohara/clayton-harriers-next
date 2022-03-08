@@ -1,5 +1,5 @@
 import { MenuItem } from "../../../types/wordpress";
-import styles from "../../../styles/DesktopMenu.module.css";
+import styles from "./DesktopMenu.module.css";
 import { Fragment } from "react";
 import isActiveRoute from "../../../utils/isActiveRoute";
 import Link from "next/link";

@@ -1,6 +1,6 @@
-import { Dispatch, Fragment, ReactNode, SetStateAction, useEffect, useRef, useState } from "react"
+import { Dispatch, Fragment, SetStateAction, useEffect, useRef, useState } from "react"
 import { MenuItem } from "../../../types/wordpress"
-import styles from "../../../styles/MobileMenu.module.css"
+import styles from "./MobileMenu.module.css"
 import isActiveRoute from "../../../utils/isActiveRoute"
 import StyledLink from "../../styledLink"
 
