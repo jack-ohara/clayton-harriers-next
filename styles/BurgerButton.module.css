@@ -1,0 +1,54 @@
+.burger {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 2rem;
+    height: 2rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0.5rem;
+    z-index: 1001;
+}
+
+.burger:focus {
+    outline: none;
+}
+
+.burger div {
+    width: 2rem;
+    height: 0.25rem;
+    background: #0d0c1d;
+    border-radius: 10px;
+    transition: all 0.3s linear;
+    position: relative;
+    transform-origin: 1px;
+}
+
+.burger div:first-child {
+    transform: rotate(0);
+}
+
+.burger.open div:first-child {
+    transform: rotate(45deg);
+}
+
+.burger div:nth-child(2) {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.burger.open div:nth-child(2) {
+    opacity: 0;
+    transform: translateX(20px);
+}
+
+.burger div:nth-child(3) {
+    transform: rotate(0);
+}
+
+.burger.open div:nth-child(3) {
+    transform: rotate(-45deg);
+}

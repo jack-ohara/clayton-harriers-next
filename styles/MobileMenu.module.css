@@ -1,0 +1,82 @@
+.navMenu {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    padding: 3rem 2rem 0 2rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+    transform: translateY(-100%);
+}
+
+.navMenu.open {
+    transform: translateY(0);
+}
+
+.itemDivider {
+    margin: 0;
+}
+
+.navMenu .itemDivider:last-child {
+    display: none;
+}
+
+.navButton {
+    font-size: 2rem;
+    padding: 1.5rem 0;
+    font-weight: bold;
+    letter-spacing: 0.5rem;
+    margin: 0;
+    border: 0;
+    background: inherit;
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* color: ${props =>
+      props.$hasActiveChild ? props.theme.colours.orange : "inherit"}; */
+}
+
+.navButton:hover,
+.navButton:focus {
+    background: lightgrey;
+    outline: none;
+}
+
+.navButton span div {
+    width: 0.8rem;
+    height: 0.2rem;
+    /* background: ${props =>
+      props.$hasActiveChild ? props.theme.colours.orange : "black"}; */
+    border-radius: 10px;
+    transition: all 0.2s linear;
+    position: relative;
+    top: 10px;
+    right: 10px;
+}
+
+.navButton span div:first-child {
+    top: 13px;
+    transform: rotate(90deg);
+}
+
+.navButton.open span div:first-child {
+    transform: rotate(0);
+}
+
+.subItemsContainer {
+    display: flex;
+    flex-direction: column;
+    transition: max-height 0.2s ease-out;
+    overflow: hidden;
+    padding-left: 1rem;
+}
+
+@media (max-width: 576px) {
+    .navButton {
+        font-size: 1.5rem;
+    }
+}

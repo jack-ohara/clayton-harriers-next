@@ -1,0 +1,33 @@
+.styledLink {
+    font-weight: bold;
+    letter-spacing: 0.5rem;
+    text-decoration: none;
+    background-image: none;
+    font-size: 2rem;
+    padding: 1.5rem 0;
+    color: inherit;
+}
+
+.styledLink:hover,
+.styledLink:focus {
+    background: lightgrey;
+    outline: none;
+}
+
+.styledLink.small {
+    font-size: 1.5rem;
+    padding: 1rem 0;
+}
+
+.styledLink.isActiveRoute {
+    color: var(--clayton-orange);
+}
+
+@media (max-width: 576px) {
+    .styledLink {
+        font-size: 1.5rem;
+    }
+    .styledLink.small {
+        font-size: 1.2rem;
+    }
+}

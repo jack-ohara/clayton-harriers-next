@@ -1,7 +1,9 @@
-import { Page } from "../types/wordpress";
+import { table } from "console";
+import { MenuItem, Page } from "../types/wordpress";
+import responseTypes from "../types/wordpress-responses";
 
 export async function getPosts() {
-  const postsRes = await fetch(process.env.WP_BASE_URL + "/posts?_embed");
+  const postsRes = await fetchFromWordpress("posts?_embed");
   const posts = await postsRes.json();
   return posts;
 }
@@ -13,7 +15,7 @@ export async function getPost(slug: string) {
   return post;
 }
 export async function getEvents() {
-  const eventsRes = await fetch(process.env.WP_BASE_URL + "/events?_embed");
+  const eventsRes = await fetchFromWordpress("events?_embed");
   const events = await eventsRes.json();
   return events;
 }
@@ -51,6 +53,96 @@ export async function getPage(id: number) {
   const page = await fetchFromWordpress(`pages/${id}`);
 
   return await page.json() as Page;
+}
+
+export async function getMenuData(): Promise<MenuItem[]> {
+  const menuDataRaw = await fetchFromWordpress("new-menu");
+
+  const menuData = await menuDataRaw.json() as responseTypes.MenuItem[];
+
+  return mapMenuResponseToDomain(menuData);
+}
+
+function mapMenuResponseToDomain(responseItems: responseTypes.MenuItem[]): MenuItem[] {
+  const result: MenuItem[] = [];
+  let itemsToAllocate = responseItems;
+
+  let atLeastOneItemAdded: boolean;
+
+  do {
+    atLeastOneItemAdded = false;
+    const itemsNotPlaced: responseTypes.MenuItem[] = [];
+
+    for (const item of itemsToAllocate) {
+      const parentId = parseInt(item.menu_item_parent);
+
+      if (parentId) {
+        let parent: MenuItem | undefined;
+
+        for (const placedItem of result) {
+          parent = tryGetParent(placedItem, parentId);
+
+          if (parent) break;
+        }
+
+        if (!parent) {
+          itemsNotPlaced.push(item);
+
+          continue;
+        };
+
+        parent.childItems.push({
+          id: item.ID,
+          label: item.title,
+          menuOrder: item.menu_order,
+          url: item.url,
+          childItems: [],
+          parentId
+        })
+      } else {
+        result.push({
+          id: item.ID,
+          label: item.title,
+          menuOrder: item.menu_order,
+          url: item.url,
+          childItems: [],
+          parentId: undefined
+        })
+      }
+
+      atLeastOneItemAdded = true;
+    }
+
+    itemsToAllocate = itemsNotPlaced;
+  } while (atLeastOneItemAdded)
+
+  result.forEach(sortChildren)
+
+  return result.sort((a, b) => a.menuOrder > b.menuOrder ? 1 : -1);
+}
+
+/**
+ * Will return the item itself if it is the parent, or the child item
+ * if it is a nested child (will keep checking all the way down the chain)
+ * @param itemToCheck 
+ * @param targetParentItem 
+ */
+function tryGetParent(itemToCheck: MenuItem, targetParentItem: number): MenuItem | undefined {
+  if (itemToCheck.id === targetParentItem) return itemToCheck;
+
+  for (const child of itemToCheck.childItems) {
+    const resultFromChild = tryGetParent(child, targetParentItem);
+
+    if (resultFromChild) return resultFromChild;
+  }
+}
+
+function sortChildren(item: MenuItem): void {
+  if (item.childItems.length) {
+    item.childItems.sort((a, b) => a.menuOrder > b.menuOrder ? 1 : -1);
+
+    item.childItems.forEach(sortChildren);
+  }
 }
 
 async function fetchFromWordpress(relativeURL: string) {
