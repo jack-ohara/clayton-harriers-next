@@ -3,6 +3,7 @@ import DesktopComponent from "../desktopComponent"
 import MobileComponent from "../mobileComponent"
 import BurgerButton from "./mobile/burgerButton"
 import MobileMenu from "./mobile"
+import DesktopMenu from "./desktop"
 
 type Props = {
     mobileMenuOpen: boolean;
@@ -21,9 +22,9 @@ export default function NavMenu({ mobileMenuOpen, setMobileMenuOpen, menuData }:
                     setIsOpen={setMobileMenuOpen}
                 />
             </MobileComponent>
-            {/* <DesktopComponent>
+            <DesktopComponent>
                 <DesktopMenu menuData={menuData} />
-            </DesktopComponent> */}
+            </DesktopComponent>
         </>
     )
 }
