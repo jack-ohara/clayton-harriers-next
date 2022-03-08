@@ -92,17 +92,17 @@ const CollapsableMenuItem = ({ title, children, resetOpen }: CollapsableMenuItem
     const [scrollHeight, setScrollHeight] = useState<number>()
     const subItems = useRef<HTMLDivElement>(null)
 
-    useEffect(() => {
-        const hasActiveChild = Array.isArray(children)
-            ? children.some(e => isActiveRoute(e.props.to))
-            : isActiveRoute(children.props.to);
+    const hasActiveChild = Array.isArray(children)
+        ? children.some(e => isActiveRoute(e.props.to))
+        : isActiveRoute(children.props.to);
 
+    useEffect(() => {
         setIsOpen(hasActiveChild)
     }, [resetOpen, children])
 
     return (
         <>
-            <button className={`${styles.navButton} ${isOpen ? styles.open : ""}`}
+            <button className={`${styles.navButton} ${isOpen ? styles.open : ""} ${hasActiveChild ? styles.hasActiveChild : ""}`}
                 onClick={() => {
                     if (subItems.current) {
                         setScrollHeight(subItems.current.scrollHeight)
@@ -132,17 +132,17 @@ type MenuItemProps = {
 
 const SingleMenuItem = ({ title, to, small = false, closeFunction }: MenuItemProps) => {
     const isActive = isActiveRoute(to)
-  
+
     return (
-      <StyledLink
-        href={to}
-        isActiveRoute={isActive}
-        small={small}
-        onClick={() => {
-          isActive && closeFunction()
-        }}
-      >
-        {title}
-      </StyledLink>
+        <StyledLink
+            href={to}
+            isActiveRoute={isActive}
+            small={small}
+            onClick={() => {
+                isActive && closeFunction()
+            }}
+        >
+            {title}
+        </StyledLink>
     )
-  }
+}

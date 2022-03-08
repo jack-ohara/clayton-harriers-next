@@ -1,4 +1,3 @@
-import { table } from "console";
 import { MenuItem, Page } from "../types/wordpress";
 import responseTypes from "../types/wordpress-responses";
 
@@ -57,7 +56,7 @@ export async function getPage(id: number) {
 
 export async function getMenuData(): Promise<MenuItem[]> {
   const menuDataRaw = await fetchFromWordpress("new-menu");
-
+  
   const menuData = await menuDataRaw.json() as responseTypes.MenuItem[];
 
   return mapMenuResponseToDomain(menuData);
@@ -66,6 +65,8 @@ export async function getMenuData(): Promise<MenuItem[]> {
 function mapMenuResponseToDomain(responseItems: responseTypes.MenuItem[]): MenuItem[] {
   const result: MenuItem[] = [];
   let itemsToAllocate = responseItems;
+  const urlReplace = `^(${process.env.WP_BASE_URL})`;
+  const urlRegRx = new RegExp(urlReplace);
 
   let atLeastOneItemAdded: boolean;
 
@@ -95,7 +96,7 @@ function mapMenuResponseToDomain(responseItems: responseTypes.MenuItem[]): MenuI
           id: item.ID,
           label: item.title,
           menuOrder: item.menu_order,
-          url: item.url,
+          url: item.url.replace(urlRegRx, ''),
           childItems: [],
           parentId
         })
@@ -104,9 +105,8 @@ function mapMenuResponseToDomain(responseItems: responseTypes.MenuItem[]): MenuI
           id: item.ID,
           label: item.title,
           menuOrder: item.menu_order,
-          url: item.url,
-          childItems: [],
-          parentId: undefined
+          url: item.url.replace(urlRegRx, ''),
+          childItems: []
         })
       }
 
@@ -146,9 +146,9 @@ function sortChildren(item: MenuItem): void {
 }
 
 async function fetchFromWordpress(relativeURL: string) {
-  if (!process.env.WP_BASE_URL) {
+  if (!process.env.WP_JSON_ENDPOINT_BASE_URL) {
     throw new Error("Wordpress base URL not found in environment variable")
   }
 
-  return await fetch(`${process.env.WP_BASE_URL}${relativeURL.startsWith('/') ? relativeURL : `/${relativeURL}`}`);
+  return await fetch(`${process.env.WP_JSON_ENDPOINT_BASE_URL}${relativeURL.startsWith('/') ? relativeURL : `/${relativeURL}`}`);
 }

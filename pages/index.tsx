@@ -2,22 +2,24 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import bannerPic from '../public/clayton-runner-no-noise.png'
-import { getPage } from '../utils/wordpress'
+import { getMenuData, getPage } from '../utils/wordpress'
 import pageIds from '../utils/wp-page-ids.json'
 import Layout from '../components/layout'
+import { MenuItem } from '../types/wordpress'
 
 type Props = {
   content: string;
+  menuData: MenuItem[];
 }
 
-export default function Home({ content }: Props) {
+export default function Home({ content, menuData }: Props) {
   return (
     <>
       <Head>
         <title>Home</title>
       </Head>
 
-      <Layout menuData={[{label: "Home", childItems: [], url: "/"}, {label: "Away", childItems: [], url: "/away"}]}>
+      <Layout menuData={menuData}>
         <section className={styles.heroSection}>
           <div className={styles.bannerImage}>
             <Image src={bannerPic} alt="clayton runner landscape" />
@@ -37,11 +39,15 @@ export default function Home({ content }: Props) {
 }
 
 export async function getStaticProps() {
-  const homePageInfo = await getPage(pageIds.new_home_page);
+  const homePageInfoPromise = getPage(pageIds.new_home_page);
+  const menuDataPromise = getMenuData();
+
+  const [homePageInfo, menuData] = await Promise.all([homePageInfoPromise, menuDataPromise]);
 
   return {
     props: {
-      content: homePageInfo.content.rendered
+      content: homePageInfo.content.rendered,
+      menuData
     }
   }
 }

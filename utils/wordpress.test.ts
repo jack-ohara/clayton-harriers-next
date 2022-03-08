@@ -6,7 +6,8 @@ import wordpressResponses from "../types/wordpress-responses";
 fetchMock.enableMocks();
 
 describe('When fetching menu data', () => {
-    process.env.WP_BASE_URL = "Not needed";
+    const wordpressBaseUrl = "https://the-wordpress-url.com";
+    process.env.WP_JSON_ENDPOINT_BASE_URL = wordpressBaseUrl;
 
     const testCases: ({ input: wordpressResponses.MenuItem[], expected: MenuItem[] })[] = [
         {
@@ -22,8 +23,8 @@ describe('When fetching menu data', () => {
                 { ID: 16956, menu_order: 1, menu_item_parent: "0", title: "Home", url: "/" },
                 { ID: 16957, menu_order: 2, menu_item_parent: "16956", title: "Child1", url: "/child-1" },
                 { ID: 16958, menu_order: 3, menu_item_parent: "16956", title: "Child2", url: "/child-2" },
-                { ID: 16960, menu_order: 5, menu_item_parent: "16959", title: "Child3", url: "/child-3" },
-                { ID: 16959, menu_order: 4, menu_item_parent: "0", title: "Away", url: "/away" },
+                { ID: 16960, menu_order: 5, menu_item_parent: "16959", title: "Child3", url: `${wordpressBaseUrl}/away/child-3` },
+                { ID: 16959, menu_order: 4, menu_item_parent: "0", title: "Away", url: `${wordpressBaseUrl}/away` },
                 { ID: 16961, menu_order: 6, menu_item_parent: "16960", title: "Child4", url: "/child-4" },
             ],
             expected: [
@@ -36,7 +37,7 @@ describe('When fetching menu data', () => {
                 {
                     id: 16959, label: "Away", menuOrder: 4, url: "/away", childItems: [
                         {
-                            id: 16960, label: "Child3", menuOrder: 5, parentId: 16959, url: "/child-3", childItems: [
+                            id: 16960, label: "Child3", menuOrder: 5, parentId: 16959, url: "/away/child-3", childItems: [
                                 { id: 16961, label: "Child4", menuOrder: 6, parentId: 16960, url: "/child-4", childItems: [] }
                             ]
                         }
