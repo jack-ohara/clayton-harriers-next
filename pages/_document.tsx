@@ -8,6 +8,7 @@ export default function Document() {
                     href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Rubik&display=swap"
                     rel="stylesheet"
                 />
+                <link rel="shortcut icon" href="/whole-banner-square.svg" />
             </Head>
             <body>
                 <Main />
