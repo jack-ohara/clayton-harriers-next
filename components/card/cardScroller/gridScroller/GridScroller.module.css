@@ -10,29 +10,9 @@
     align-items: center;
 }
 
-.arrowContainer.slick-arrow {
+.arrowContainer {
     height: 2rem;
     width: 2rem;
-}
-
-.arrowContainer.slick-arrow.slick-next {
-    right: -3em;
-}
-
-.arrowContainer.slick-arrow.slick-prev {
-    left: -3em;
-}
-
-.arrowContainer.slick-arrow:hover:before,
-.arrowContainer.slick-arrow:focus:before {
-    opacity: 1;
-}
-
-.arrowContainer.slick-arrow:before {
-    color: var(--clayton-orange);
-    font-size: 2rem;
-    opacity: 0.75;
-    transition: opacity 90ms ease-out;
 }
 
 .cardContainer {

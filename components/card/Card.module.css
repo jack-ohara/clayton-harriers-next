@@ -46,19 +46,19 @@
 
 .cardImage {
     border-radius: 5px 5px 0 0;
-    max-height: 180px;
+    height: 160px;
 }
 
 .cardImage.bannerImage {
-    margin: 0 auto 0.5rem auto;
+    margin: 0 0 0.5rem auto;
     flex-grow: 1;
-    max-height: 180px;
+    max-height: 160px;
 }
 
 .cardImage.featuredImage {
     margin-bottom: 0.5rem;
     object-fit: cover;
-    object-position: top;
+    object-position: 50% 20%;
 }
 
 @media (min-width: 815px) {
