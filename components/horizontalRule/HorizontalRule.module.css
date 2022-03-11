@@ -1,0 +1,3 @@
+.horizontalRule {
+    background: linear-gradient( 90deg, #bbbbbb 25%, var(--light-grey) 100%);
+}

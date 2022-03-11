@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="43.392mm" height="43.392mm" version="1.1" viewBox="0 0 43.392 43.392" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <defs>
+  <linearGradient id="linearGradient867" x1="136.75" x2="188.83" y1="93.683" y2="93.683" gradientTransform="matrix(.64994 0 0 .64994 -23.25 -39.953)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#fff" offset="0"/>
+   <stop stop-color="#ececec" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient883" x1="48.115" x2="165.89" y1="82.077" y2="82.077" gradientTransform="matrix(.64994 0 0 .64994 -23.25 -39.953)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#f60" offset="0"/>
+   <stop stop-color="#d2ab92" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient891" x1="35.622" x2="165.89" y1="70.472" y2="70.472" gradientTransform="matrix(.64994 0 0 .64994 -23.25 -39.953)" gradientUnits="userSpaceOnUse">
+   <stop offset="0"/>
+   <stop stop-color="#616161" offset="1"/>
+  </linearGradient>
+ </defs>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g transform="translate(0 7.7428)" fill-rule="evenodd">
+  <g>
+   <path d="m16.755 16.028h67.737v11.878h-52.39c-10.165 0-15.347-11.878-15.347-11.878z" fill-opacity=".57661" style="paint-order:normal"/>
+   <path d="m8.6185 8.4942h75.873v11.859h-60.512c-11.386 0-15.362-11.859-15.362-11.859z" fill-opacity=".58" style="paint-order:normal"/>
+   <path d="m0.52349 0.95938h83.968v11.844h-68.602c-12.601 0-15.366-11.844-15.366-11.844z" fill-opacity=".58" style="paint-order:normal"/>
+  </g>
+  <g stroke-width=".64994">
+   <path d="m0 0h84.492v11.699h-69.03c-12.68 0-15.462-11.699-15.462-11.699z" fill="url(#linearGradient891)" style="paint-order:normal"/>
+   <path d="m8.1242 7.5425h76.367v11.699h-60.906c-11.46 0-15.462-11.699-15.462-11.699z" fill="url(#linearGradient883)" style="paint-order:normal"/>
+   <path d="m16.248 15.086h68.243v11.699h-52.782c-10.241 0-15.462-11.699-15.462-11.699z" fill="url(#linearGradient867)" style="paint-order:normal"/>
+  </g>
+ </g>
+</svg>

@@ -1,0 +1,7 @@
+.pageHeader {
+    font-size: 2.5rem;
+    margin-top: 2rem;
+    color: var(--light-grey);
+    -webkit-text-stroke: 1px black;
+    text-shadow: 2px 2px var(--clayton-orange);
+}

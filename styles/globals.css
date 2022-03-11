@@ -892,3 +892,15 @@ h3 {
         transform: scale(1.5);
     }
 }
+
+.slick-arrow:hover::before,
+.slick-arrow:focus::before {
+    opacity: 1;
+}
+
+.slick-arrow::before {
+    color: var(--clayton-orange);
+    font-size: 2rem;
+    opacity: 0.75;
+    transition: opacity 90ms ease-out;
+}

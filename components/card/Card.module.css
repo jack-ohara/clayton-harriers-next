@@ -1,0 +1,100 @@
+.cardContent {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-between;
+}
+
+.cardContainer {
+    border-radius: 5px;
+    box-shadow: 0 0 1px hsl(0deg 0% 80% / 0.045), 0 0 2px hsl(0deg 0% 80% / 0.045), 0 0 4px hsl(0deg 0% 80% / 0.045), 0 0 8px hsl(0deg 0% 80% / 0.045), 0 0 16px hsl(0deg 0% 80% / 0.045);
+    display: flex;
+    flex-direction: column;
+    width: 75vw;
+    max-width: 350px;
+    min-height: 100%;
+    margin: 0.5rem 0;
+    color: unset;
+    text-decoration: none;
+    transition: transform 180ms ease-in;
+    overflow: hidden;
+}
+
+.cardContainer img {
+    transition: transform 200ms ease-in !important;
+}
+
+.cardContainer:hover img,
+.cardContainer:active img,
+.cardContainer:focus img {
+    transform: scale(1.03);
+    outline: none;
+}
+
+.cardContainer:hover h4,
+.cardContainer:active h4,
+.cardContainer:focus h4,
+.cardContainer:hover h5,
+.cardContainer:active h5,
+.cardContainer:focus h5 {
+    text-decoration-color: unset;
+}
+
+
+/* This is missing the specific styles for BannerImage and FeaturedImage */
+
+.cardImage {
+    border-radius: 5px 5px 0 0;
+    height: 160px;
+}
+
+.cardImage.bannerImage {
+    margin: 0 0 0.5rem auto;
+    flex-grow: 1;
+    max-height: 160px;
+}
+
+.cardImage.featuredImage {
+    margin-bottom: 0.5rem;
+    object-fit: cover;
+    object-position: 50% 20%;
+}
+
+@media (min-width: 815px) {
+    .cardImage {
+        height: 250px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .cardImage.bannerImage {
+        max-width: 120%;
+    }
+}
+
+.cardBox {
+    padding: 0.5rem 1rem;
+}
+
+.cardBox h4,
+.cardBox h5 {
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    margin: 0;
+    transition: text-decoration-color 100ms ease-in;
+}
+
+.cardBox h4 {
+    margin: 0 0 0.5rem 0;
+    color: var(--clayton-orange);
+}
+
+.cardBox h5 {
+    margin: 0 0 0.3rem 0;
+    color: var(--dark-grey);
+}
+
+.excerpt {
+    margin: 0;
+}
