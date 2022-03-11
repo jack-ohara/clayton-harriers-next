@@ -1,51 +1,16 @@
-import { MenuItem, Page } from "../types/wordpress";
+import { MenuItem, Page, Post } from "../types/wordpress";
 import responseTypes from "../types/wordpress-responses";
+import { JSDOM } from "jsdom";
 
-export async function getPosts() {
-  const postsRes = await fetchFromWordpress("posts?_embed");
-  const posts = await postsRes.json();
-  return posts;
-}
+const urlReplace = `^(${process.env.WP_BASE_URL})`;
+const urlRegRx = new RegExp(urlReplace);
 
-export async function getPost(slug: string) {
-  const posts = await getPosts();
-  const postArray = posts.filter((post: any) => post.slug == slug);
-  const post = postArray.length > 0 ? postArray[0] : null;
-  return post;
-}
-export async function getEvents() {
-  const eventsRes = await fetchFromWordpress("events?_embed");
-  const events = await eventsRes.json();
-  return events;
-}
+export async function getRecentPosts() {
+  const recentPostsRaw = await fetchFromWordpress('posts?_embed&per_page=12&order=desc&status=publish');
 
-export async function getEvent(slug: string) {
-  const events = await getEvents();
-  const eventArray = events.filter((event: any) => event.slug == slug);
-  const event = eventArray.length > 0 ? eventArray[0] : null;
-  return event;
-}
+  const recentPosts = await recentPostsRaw.json() as responseTypes.Post[];
 
-export async function getSlugs(type: "posts" | "events") {
-  let elements = [];
-
-  switch (type) {
-    case "posts":
-      elements = await getPosts();
-      break;
-    case "events":
-      elements = await getEvents();
-      break;
-  }
-
-  const elementsIds = elements.map((element: any) => {
-    return {
-      params: {
-        slug: element.slug,
-      },
-    };
-  });
-  return elementsIds;
+  return mapPostsResponseToDomain(recentPosts);
 }
 
 export async function getPage(id: number) {
@@ -56,17 +21,34 @@ export async function getPage(id: number) {
 
 export async function getMenuData(): Promise<MenuItem[]> {
   const menuDataRaw = await fetchFromWordpress("new-menu");
-  
+
   const menuData = await menuDataRaw.json() as responseTypes.MenuItem[];
 
   return mapMenuResponseToDomain(menuData);
 }
 
+function mapPostsResponseToDomain(responseItems: responseTypes.Post[]): Post[] {
+  return responseItems.map(item => (
+    {
+      id: item.id,
+      slug: item.link.replace(urlRegRx, ''),
+      type: item.type,
+      date: item.date_gmt,
+      title: extractTextFromHtml(item.title.rendered),
+      content: extractTextFromHtml(item.content.rendered),
+      excerpt: extractTextFromHtml(item.excerpt.rendered),
+      author: item._embedded.author[0].name,
+      featuredImage: item._embedded["wp:featuredmedia"] ? {
+        url: item._embedded["wp:featuredmedia"][0].media_details.sizes.medium_large?.source_url ?? item._embedded["wp:featuredmedia"][0].media_details.sizes.full.source_url,
+        altText: item._embedded["wp:featuredmedia"][0].alt_text ?? extractTextFromHtml(item._embedded["wp:featuredmedia"][0].title.rendered)
+      } : null
+    }
+  ))
+}
+
 function mapMenuResponseToDomain(responseItems: responseTypes.MenuItem[]): MenuItem[] {
   const result: MenuItem[] = [];
   let itemsToAllocate = responseItems;
-  const urlReplace = `^(${process.env.WP_BASE_URL})`;
-  const urlRegRx = new RegExp(urlReplace);
 
   let atLeastOneItemAdded: boolean;
 
@@ -143,6 +125,10 @@ function sortChildren(item: MenuItem): void {
 
     item.childItems.forEach(sortChildren);
   }
+}
+
+function extractTextFromHtml(html: string): string {
+  return new JSDOM(html).window.document.querySelector("*")?.textContent ?? "";
 }
 
 async function fetchFromWordpress(relativeURL: string) {

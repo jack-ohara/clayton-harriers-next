@@ -2,15 +2,22 @@ export type Post = {
     id: number;
     slug: string;
     type: string;
-    title: {
-        rendered: string;
-    }
+    author: string;
+    date: string;
+    title: string;
+    content: string;
+    excerpt: string | null;
+    featuredImage?: {
+        url: stirng;
+        altText: string;
+    } | null;
+}
+
+export type Page = {
     content: {
         rendered: string;
     }
-}
-
-export type Page = Post;
+};
 
 export type MenuItem = {
     id: number;

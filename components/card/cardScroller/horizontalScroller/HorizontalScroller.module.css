@@ -1,0 +1,10 @@
+.cardContainer {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 10px 0 40px 0;
+}
+
+.cardWrapper {
+    padding: 0 10px;
+}
