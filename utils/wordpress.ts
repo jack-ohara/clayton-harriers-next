@@ -1,9 +1,13 @@
 import { MenuItem, Page, Post } from "../types/wordpress";
 import responseTypes from "../types/wordpress-responses";
 import { JSDOM } from "jsdom";
+import NodeCache from "node-cache";
+import { resolve } from "path";
 
 const urlReplace = `^(${process.env.WP_BASE_URL})`;
 const urlRegRx = new RegExp(urlReplace);
+
+const wpCache = new NodeCache({ stdTTL: 0 });
 
 export async function getRecentPosts() {
   const recentPostsRaw = await fetchFromWordpress('posts?_embed&per_page=12&order=desc&status=publish');
@@ -13,18 +17,105 @@ export async function getRecentPosts() {
   return mapPostsResponseToDomain(recentPosts);
 }
 
-export async function getPage(id: number) {
+export async function getPage(id: number): Promise<Page> {
   const page = await fetchFromWordpress(`pages/${id}`);
 
-  return await page.json() as Page;
+  const rawPage = await page.json() as responseTypes.Page;
+
+  return {
+    id: rawPage.id,
+    slug: rawPage.link.replace(urlRegRx, ""),
+    content: rawPage.content.rendered,
+    title: rawPage.title.rendered
+  }
+}
+
+export async function getPageBySlug(slug: string): Promise<Page | undefined> {
+  const allPages = await getPages();
+
+  return allPages.find(p => p.slug.replace(/^(.*)(\/)$/, '$1') === slug)
+}
+
+export async function getPostBySlug(slug: string): Promise<Page | undefined> {
+  const allPosts = await getPosts();
+
+  return allPosts.find(p => p.slug.replace(/^(.*)(\/)$/, '$1') === slug)
+}
+
+export async function getPages(): Promise<Page[]> {
+  const cachedPages = wpCache.get<Page[]>('wp-all-pages')
+  if (cachedPages) return cachedPages
+
+  console.log('Fetching pages from api...')
+
+  let pages: Page[] = [];
+  let pageNumber = 1;
+  let totalNumberOfPages = 0;
+
+  do {
+    const result = await fetchFromWordpress(`pages?_embed&page=1&per_page=100&status=publish`);
+
+    totalNumberOfPages = parseInt(result.headers.get('x-wp-TotalPages') ?? "0")
+
+    const rawPages = await result.json() as responseTypes.Page[];
+
+    pages = pages.concat(rawPages.map(p => ({
+      id: p.id,
+      slug: p.link.replace(urlRegRx, ""),
+      content: p.content.rendered,
+      title: p.title.rendered
+    })))
+
+    pageNumber++;
+  } while (pageNumber <= totalNumberOfPages)
+
+  wpCache.set('wp-all-pages', pages);
+
+  return pages;
+}
+
+export async function getPosts(): Promise<Post[]> {
+  const cachedPosts = wpCache.get<Post[]>('wp-all-posts')
+  if (cachedPosts) return cachedPosts
+
+  console.log('Fetching posts from api...')
+
+  let posts: Post[] = [];
+  let pageNumber = 1;
+  let totalNumberOfPages = 0;
+
+  do {
+    const result = await fetchFromWordpress(`posts?_embed&page=1&per_page=100&status=publish`);
+
+    totalNumberOfPages = parseInt(result.headers.get('x-wp-TotalPages') ?? "0")
+
+    const rawPosts = await result.json() as responseTypes.Post[];
+
+    posts = posts.concat(mapPostsResponseToDomain(rawPosts))
+
+    pageNumber++;
+  } while (pageNumber <= totalNumberOfPages)
+
+  wpCache.set('wp-all-posts', posts);
+
+  return posts;
 }
 
 export async function getMenuData(): Promise<MenuItem[]> {
+  const cachedItems = wpCache.get<MenuItem[]>('wp-menu-items');
+  if (cachedItems) return cachedItems;
+
+  console.log('Fetching menu items from api...')
+
   const menuDataRaw = await fetchFromWordpress("new-menu");
 
   const menuData = await menuDataRaw.json() as responseTypes.MenuItem[];
 
-  return mapMenuResponseToDomain(menuData);
+  const menuItems = mapMenuResponseToDomain(menuData);
+
+  wpCache.set('wp-menu-items', menuItems)
+
+  return menuItems
 }
 
 function mapPostsResponseToDomain(responseItems: responseTypes.Post[]): Post[] {
@@ -131,10 +222,26 @@ function extractTextFromHtml(html: string): string {
   return new JSDOM(html).window.document.querySelector("*")?.textContent ?? "";
 }
 
-async function fetchFromWordpress(relativeURL: string) {
+async function fetchFromWordpress(relativeURL: string, retryCount: number = 5): Promise<Response> {
   if (!process.env.WP_JSON_ENDPOINT_BASE_URL) {
     throw new Error("Wordpress base URL not found in environment variable")
   }
 
-  return await fetch(`${process.env.WP_JSON_ENDPOINT_BASE_URL}${relativeURL.startsWith('/') ? relativeURL : `/${relativeURL}`}`);
+  const url = `${process.env.WP_JSON_ENDPOINT_BASE_URL}${relativeURL.startsWith('/') ? relativeURL : `/${relativeURL}`}`;
+
+  try {
+    return await fetch(url);
+  } catch (e) {
+    console.error(JSON.stringify(e, null, 2))
+    console.log(url)
+
+    if (retryCount > 0) {
+      await new Promise(resolve => setTimeout(resolve, 5000))
+      return fetchFromWordpress(relativeURL, retryCount - 1)
+    }
+
+    console.error(`Failed to call ${url}`)
+
+    throw e
+  }
 }

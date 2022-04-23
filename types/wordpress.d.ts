@@ -14,9 +14,10 @@ export type Post = {
 }
 
 export type Page = {
-    content: {
-        rendered: string;
-    }
+    id: number;
+    slug: string;
+    content: string;
+    title: string;
 };
 
 export type MenuItem = {

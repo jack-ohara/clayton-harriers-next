@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Card from "../..";
 import { Post } from "../../../../types/wordpress";
 import styles from "./HorizontalScroller.module.css";
@@ -11,7 +11,7 @@ export default function HorizontalCardScroller({ posts }: Props) {
     const [maxParagraphHeight, setMaxParagraphHeight] = useState(0)
     const containerRef = useRef<HTMLDivElement>(null)
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (containerRef.current) {
             const allParagraphs = [
                 ...containerRef.current.querySelectorAll(":scope div p"),
