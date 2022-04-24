@@ -2,7 +2,7 @@ import { GetStaticPathsResult, GetStaticPropsContext } from "next";
 import Layout from "../components/layout";
 import PageHeader from "../components/PageHeader";
 import { MenuItem, Page, Post } from "../types/wordpress";
-import { getMenuData, getPage, getPageBySlug, getPages, getPostBySlug, getPosts } from "../utils/wordpress";
+import { getMenuData, getPageBySlug, getPageSlugs, getPostBySlug, getPostSlugs } from "../utils/wordpress";
 import styles from "./slug/Slug.module.css"
 
 type Props = {
@@ -24,17 +24,15 @@ export default function Slug({ content, title, menuData }: Props) {
 }
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
-  const allPagesPromise = getPages();
-  const allPostsPromise = getPosts();
+  const postSlugs = await getPostSlugs()
+  const pageSlugs = await getPageSlugs()
 
-  const [allPages, allPosts] = await Promise.all([allPagesPromise, allPostsPromise])
-
-  let paths = allPages.map((page) => ({ params: { slug: page.slug.split('/').filter(e => e) } }))
-  paths = paths.concat(allPosts.map((post) => ({ params: { slug: post.slug.split('/').filter(e => e) } })))
+  let paths = postSlugs.map((slug) => ({ params: { slug: slug.split('/').filter(e => e) } }))
+  paths = paths.concat(pageSlugs.map((slug) => ({ params: { slug: slug.split('/').filter(e => e) } })))
 
   return {
     paths,
-    fallback: true
+    fallback: false
   }
 }
 
