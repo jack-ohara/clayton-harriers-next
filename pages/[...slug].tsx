@@ -3,6 +3,7 @@ import Layout from "../components/layout";
 import PageHeader from "../components/PageHeader";
 import { MenuItem, Page, Post } from "../types/wordpress";
 import { getMenuData, getPageBySlug, getPageSlugs, getPostBySlug, getPostSlugs } from "../utils/wordpress";
+import pathsToIgnore from "../utils/paths-to-ignore.json"
 import styles from "./slug/Slug.module.css"
 
 type Props = {
@@ -27,8 +28,8 @@ export async function getStaticPaths(): Promise<GetStaticPathsResult> {
   const postSlugs = await getPostSlugs()
   const pageSlugs = await getPageSlugs()
 
-  let paths = postSlugs.map((slug) => ({ params: { slug: slug.split('/').filter(e => e) } }))
-  paths = paths.concat(pageSlugs.map((slug) => ({ params: { slug: slug.split('/').filter(e => e) } })))
+  let paths = postSlugs.filter(s => s.length).map((slug) => ({ params: { slug: slug.split('/').filter(e => e && !pathsToIgnore.includes(e)) } }))
+  paths = paths.concat(pageSlugs.filter(s => s.length).map((slug) => ({ params: { slug: slug.split('/').filter(e => e && !pathsToIgnore.includes(e)) } })))
 
   return {
     paths,

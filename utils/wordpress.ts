@@ -39,8 +39,6 @@ export async function getPageSlugs(): Promise<string[]> {
 }
 
 export async function getMenuData(): Promise<MenuItem[]> {
-  console.log('Fetching menu items from api...')
-
   const menuDataRaw = await fetchFromWordpress("menu");
 
   return await menuDataRaw.json() as MenuItem[];
