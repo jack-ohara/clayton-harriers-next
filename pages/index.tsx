@@ -46,7 +46,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      content: homePageInfo.content.rendered,
+      content: homePageInfo.content,
       menuData,
       recentPostsData
     }

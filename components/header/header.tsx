@@ -20,6 +20,8 @@ export default function Header({ menuData }: Props) {
         )
     })
 
+    CustomImage.displayName = "CustomImage"
+
     return (
         <div className={styles.container}>
             <header className={styles.header}>

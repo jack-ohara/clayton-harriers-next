@@ -5,14 +5,14 @@ import isActiveRoute from "../../../utils/isActiveRoute";
 import Link from "next/link";
 
 type Props = {
-    menuData: MenuItem[];
+    menuData: MenuItem[] | undefined;
 }
 
 export default function Menu({ menuData }: Props) {
     return (
         <nav className={styles.nav}>
             <ul>
-                {menuData.map(item => (
+                {menuData?.map(item => (
                     <Fragment key={`menu-item-${item.id}`}>
                         {item.childItems.length ? (
                             <DropdownMenuItem title={item.label} key={`dropdown-item-${item.id}`}>

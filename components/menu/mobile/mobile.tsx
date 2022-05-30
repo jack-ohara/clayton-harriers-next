@@ -5,7 +5,7 @@ import isActiveRoute from "../../../utils/isActiveRoute"
 import StyledLink from "../../styledLink"
 
 type Props = {
-    menuData: MenuItem[];
+    menuData: MenuItem[] | undefined;
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
@@ -37,7 +37,7 @@ export default function Menu({ menuData, isOpen, setIsOpen }: Props) {
         setIsOpen(false)
     }
 
-    const menuItems = getMenuItems(menuData.filter((item) => !item.parentId), closeMenuFunction, isOpen);
+    const menuItems = menuData && getMenuItems(menuData.filter((item) => !item.parentId), closeMenuFunction, isOpen);
 
     return (
         <nav className={`${styles.navMenu} ${isOpen ? styles.open : ""}`} ref={navRef}>

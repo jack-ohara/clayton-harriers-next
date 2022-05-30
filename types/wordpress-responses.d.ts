@@ -35,6 +35,13 @@ export type Post = {
     }
 }
 
+export type Page = {
+    id: number;
+    link: string;
+    content: RenderedContent;
+    title: RenderedContent;
+}
+
 type RenderedContent = {
     rendered: string;
 }
