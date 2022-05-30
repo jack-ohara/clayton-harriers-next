@@ -5,7 +5,7 @@ import Header from "../header";
 import Head from "next/head";
 
 type Props = {
-    children: ReactNode;
+    children: JSX.Element | JSX.Element[];
     setMaxWidth?: boolean;
     menuData: MenuItem[];
     title: string;

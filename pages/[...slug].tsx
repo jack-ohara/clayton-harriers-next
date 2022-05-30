@@ -25,14 +25,11 @@ export default function Slug({ content, title, menuData }: Props) {
 }
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
-  const postSlugs = await getPostSlugs()
-  const pageSlugs = await getPageSlugs()
-
-  let paths = postSlugs.filter(s => s.length).map((slug) => ({ params: { slug: slug.split('/').filter(e => e && !pathsToIgnore.includes(e)) } }))
-  paths = paths.concat(pageSlugs.filter(s => s.length).map((slug) => ({ params: { slug: slug.split('/').filter(e => e && !pathsToIgnore.includes(e)) } })))
+  const postSlugs = await getStaticPostSlugs()
+  const pageSlugs = await getStaticPageSlugs()
 
   return {
-    paths,
+    paths: [...postSlugs, ...pageSlugs],
     fallback: false
   }
 }
@@ -65,4 +62,28 @@ async function getEntityBySlug(slug: string): Promise<Page | Post | undefined> {
   }
 
   return page
+}
+
+async function getStaticPostSlugs(): Promise<{ params: { slug: string[]; }; }[]> {
+  const postSlugs = await getPostSlugs();
+
+  return postSlugs
+    .filter(s => s.length && !pathsToIgnore.includes(s))
+    .map((slug) => ({
+      params: {
+        slug: slug.split('/')
+      }
+    }))
+}
+
+async function getStaticPageSlugs(): Promise<{ params: { slug: string[]; }; }[]> {
+  const pageSlugs = await getPageSlugs();
+
+  return pageSlugs
+    .filter(s => s.length && !pathsToIgnore.includes(s))
+    .map((slug) => ({
+      params: {
+        slug: slug.split('/')
+      }
+    }))
 }
