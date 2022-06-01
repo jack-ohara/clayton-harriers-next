@@ -21,7 +21,7 @@ export default function Card({ post: { title, slug, featuredImage, author, date,
             <div className={styles.cardBox}>
                 <h4>{title}</h4>
                 <h5>{author}</h5>
-                <h5>{date}</h5>
+                <h5>{new Date(date).toLocaleDateString("en-gb", { day: "numeric", month: "short", year: "numeric" })}</h5>
                 <HorizontalRule />
                 <p className={styles.excerpt} style={{ height: paragraphHeight ?? "unset" }} dangerouslySetInnerHTML={{ __html: excerpt?.replace(" Continue reading →", "") ?? "" }} />
             </div>

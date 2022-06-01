@@ -28,6 +28,7 @@
         "eslint-config-next": "12.1.0",
         "jest": "^27.5.1",
         "jest-fetch-mock": "^3.0.3",
+        "react-intersection-observer": "^9.2.0",
         "typescript": "4.6.2"
     }
 }

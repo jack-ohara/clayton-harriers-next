@@ -7,10 +7,12 @@ export type Post = {
     title: string;
     content: string;
     excerpt: string | null;
-    featuredImage?: {
-        url: stirng;
-        altText: string;
-    } | null;
+    featuredImage?: FeaturedImage | null;
+}
+
+export type FeaturedImage = {
+    url: stirng;
+    altText: string;
 }
 
 export type Page = {
@@ -18,6 +20,7 @@ export type Page = {
     slug: string;
     content: string;
     title: string;
+    featuredImage?: FeaturedImage | null;
 };
 
 export type MenuItem = {
@@ -27,4 +30,21 @@ export type MenuItem = {
     parentId?: number | undefined;
     childItems: MenuItem[];
     url: string;
+}
+
+export type PostDetails = {
+    id: number;
+    slug: string;
+    title: string;
+    author: string;
+    date: string;
+    excerpt: string | null;
+    featuredImage?: FeaturedImage | null;
+}
+
+export type PageDetails = {
+    id: number;
+    slug: string;
+    title: string;
+    featuredImage?: FeaturedImage | null;
 }
