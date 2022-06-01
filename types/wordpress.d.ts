@@ -41,3 +41,10 @@ export type PostDetails = {
     excerpt: string | null;
     featuredImage?: FeaturedImage | null;
 }
+
+export type PageDetails = {
+    id: number;
+    slug: string;
+    title: string;
+    featuredImage?: FeaturedImage | null;
+}

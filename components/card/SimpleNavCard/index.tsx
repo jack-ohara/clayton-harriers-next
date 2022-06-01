@@ -6,13 +6,13 @@ type Props = {
     title: string;
     featuredImage: FeaturedImage | undefined;
     slug: string;
-    className?: string | undefined; // Not yet used - can implement when needed
+    className?: string | undefined;
 }
 
-export default function SimpleNavCard({ title, featuredImage, slug }: Props): JSX.Element {
+export default function SimpleNavCard({ title, featuredImage, slug, className }: Props): JSX.Element {
     return (
         <Link href={slug} passHref>
-            <a className={styles.styledLink}>
+            <a className={`${styles.styledLink} ${className}`}>
                 <span className={styles.headingContainer}>
                     <h3 className={styles.cardHeading}>{title}</h3>
                 </span>
