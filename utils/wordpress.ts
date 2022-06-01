@@ -1,4 +1,4 @@
-import { MenuItem, Page, Post } from "../types/wordpress";
+import { MenuItem, Page, Post, PostDetails } from "../types/wordpress";
 
 export async function getRecentPosts() {
   const recentPostsRaw = await fetchFromWordpress('recent-posts');
@@ -42,6 +42,12 @@ export async function getMenuData(): Promise<MenuItem[]> {
   const menuDataRaw = await fetchFromWordpress("menu");
 
   return await menuDataRaw.json() as MenuItem[];
+}
+
+export async function getPostDetails() {
+  const postDetailsRaw = await fetchFromWordpress("post-details")
+
+  return await postDetailsRaw.json() as PostDetails[]
 }
 
 async function fetchFromWordpress(relativeURL: string, retryCount: number = 5): Promise<Response> {

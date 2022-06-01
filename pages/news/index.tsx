@@ -1,21 +1,22 @@
 import { useEffect, useState } from "react";
 import Layout from "../../components/layout";
 import { useInView } from "react-intersection-observer"
-import { getMenuData } from "../../utils/wordpress";
-import { MenuItem } from "../../types/wordpress";
+import { getMenuData, getPostDetails } from "../../utils/wordpress";
+import { MenuItem, PostDetails } from "../../types/wordpress";
 import PageHeader from "../../components/PageHeader";
+import NewsPreviews from "../../components/newsPreviews";
 
 const postsBlockSize = 10
 
 type Props = {
-    data: any;
-    menuData: MenuItem[]
+    menuData: MenuItem[];
+    postDetails: PostDetails[];
 }
 
-export default function NewsPage({ data, menuData }: Props) {
-    // const [posts, setPosts] = useState(
-    //     data.allWpPost.nodes.slice(0, postsBlockSize).map(e => mapCardFields(e))
-    // )
+export default function NewsPage({ menuData, postDetails }: Props) {
+    const [posts, setPosts] = useState(
+        postDetails.slice(0, postsBlockSize) //.map(e => mapCardFields(e))
+    )
     const [postsRevealed, setPostsRevealed] = useState(postsBlockSize)
     const [ref, inView] = useInView({})
 
@@ -24,14 +25,14 @@ export default function NewsPage({ data, menuData }: Props) {
     }, [inView])
 
     const loadMorePosts = () => {
-        // let nextPosts = data.allWpPost.nodes.slice(
-        //     postsRevealed,
-        //     postsRevealed + postsBlockSize
-        // )
+        let nextPosts = postDetails.slice(
+            postsRevealed,
+            postsRevealed + postsBlockSize
+        )
 
         // nextPosts = nextPosts.map(e => mapCardFields(e))
 
-        // setPosts(prevPosts => [...prevPosts, ...nextPosts])
+        setPosts(prevPosts => [...prevPosts, ...nextPosts])
         setPostsRevealed(prev => prev + postsBlockSize)
     }
 
@@ -40,7 +41,7 @@ export default function NewsPage({ data, menuData }: Props) {
             <div>
                 <PageHeader>News &amp; Info</PageHeader>
 
-                {/* <NewsPreviews posts={posts} /> */}
+                <NewsPreviews posts={posts} />
             </div>
 
             <div ref={ref} />
@@ -49,11 +50,15 @@ export default function NewsPage({ data, menuData }: Props) {
 }
 
 export async function getStaticProps() {
-    const menuData = await getMenuData()
+    const menuDataPromise = getMenuData()
+    const allPostsDetailsPromise = getPostDetails()
+
+    const [menuData, allPostDetails] = await Promise.all([menuDataPromise, allPostsDetailsPromise])
 
     return {
         props: {
-            menuData
+            menuData,
+            postDetails: allPostDetails
         }
     }
 }

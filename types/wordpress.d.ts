@@ -31,3 +31,13 @@ export type MenuItem = {
     childItems: MenuItem[];
     url: string;
 }
+
+export type PostDetails = {
+    id: number;
+    slug: string;
+    title: string;
+    author: string;
+    date: string;
+    excerpt: string | null;
+    featuredImage?: FeaturedImage | null;
+}
