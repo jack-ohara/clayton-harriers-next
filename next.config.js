@@ -4,8 +4,11 @@ const nextConfig = {
     images: {
         domains: [
             'wp.claytonlemoors.org.uk'
-        ]
-    }
+        ],
+        loader: 'akamai',
+        path: ''
+    },
+    trailingSlash: true
 }
 
 module.exports = nextConfig

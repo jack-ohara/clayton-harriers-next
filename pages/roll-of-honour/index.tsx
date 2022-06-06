@@ -21,14 +21,9 @@ export default function RollOfHonourPage({ menuData, pageDetails }: Props) {
             </p>
 
             <p>
-                {/*
-                    Had to wrap this in a string to stop nextjs complaining about
-                    un-escaped single quotes
-                */}
-                
-                {`Below we've grouped together some of the achievements. This is an
-                ever-growing list and no doubt, we've missed some people along the way.
-                If you think you should be on any of the lists, please get in touch!`}
+                Below we&apos;ve grouped together some of the achievements. This is an
+                ever-growing list and no doubt, we&apos;ve missed some people along the way.
+                If you think you should be on any of the lists, please get in touch!
             </p>
 
             <div className={styles.cardContainer}>

@@ -1,4 +1,3 @@
-import { ReactNode } from "react"
 import styles from "./Layout.module.css";
 import { MenuItem } from "../../types/wordpress";
 import Header from "../header";
@@ -23,7 +22,10 @@ export default function Layout({ children, setMaxWidth = true, title, menuData }
                     <main style={{ maxWidth: setMaxWidth ? "var(--max-content-width)" : "unset" }} className={styles.contentWrapper}>
                         {children}
                     </main>
-                    <footer className={styles.footer}>© {new Date().getFullYear()} Clayton-Le-Moors Harriers</footer>
+                    <footer className={styles.footer}>
+                        <span>© {new Date().getFullYear()} Clayton-Le-Moors Harriers</span>
+                        <span className={styles.plug}>Site designed and built by Jack O&apos;Hara</span>
+                    </footer>
                 </div>
             </div>
         </>

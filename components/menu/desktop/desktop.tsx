@@ -1,6 +1,6 @@
 import { MenuItem } from "../../../types/wordpress";
 import styles from "./DesktopMenu.module.css";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import isActiveRoute from "../../../utils/isActiveRoute";
 import Link from "next/link";
 
@@ -45,9 +45,15 @@ type DropdownMenuItemProps = {
 }
 
 function DropdownMenuItem({ title, children }: DropdownMenuItemProps) {
-    const hasActiveChild = Array.isArray(children)
-        ? children.some(e => e && isActiveRoute(e.props.to))
-        : isActiveRoute(children.props.to)
+    const [hasActiveChild, setHasActiveChild] = useState(false)
+
+    useEffect(() => {
+        setHasActiveChild(
+            Array.isArray(children)
+                ? children.some(e => e && isActiveRoute(e.props.to))
+                : isActiveRoute(children.props.to)
+        )
+    }, [hasActiveChild, children])
 
     return (
         <li className={styles.dropdown}>
@@ -75,13 +81,25 @@ function MenuItem({
     small = false,
     children,
 }: MenuItemProps) {
-    const isActive = isActiveRoute(to)
+    const [isActive, setIsActive] = useState(isActiveRoute(to))
+
+    const dependencies: any[] = [to]
+    if (typeof window !== "undefined") {
+        dependencies.push(window.location.pathname)
+    }
+
+    useEffect(() => {
+        setIsActive(isActiveRoute(to))
+    }, dependencies)
 
     return (
         <li>
             <Link href={to}>
-                <a className={`${styles.menuLink} ${isActive ? styles.isActiveRoute : ""} ${showBackgroundOnHover ? styles.showBackground : ""} ${small ? styles.small : ""}`}>
-                    {children}</a>
+                <a
+                    className={`${styles.menuLink} ${isActive ? styles.isActiveRoute : ""} ${showBackgroundOnHover ? styles.showBackground : ""} ${small ? styles.small : ""}`}
+                >
+                    {children}
+                </a>
             </Link>
         </li>
     )
