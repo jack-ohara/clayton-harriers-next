@@ -1,4 +1,3 @@
-import Image from "next/image"
 import Link from "next/link"
 import { forwardRef, useState } from "react"
 import harriersLogo from "../../public/harriers-logo-transparent.png"
@@ -19,7 +18,7 @@ export default function Header({ menuData }: Props) {
                     This image doesn't resolve when you navigate to deeper pages
                     becuase the leading slash disappears
                 */}
-                <Image src={harriersLogo} width={65} height={65} alt="Clayton Harriers logo" loading="eager" />
+                <img src={harriersLogo.src} className={styles.logoImage} alt="Clayton Harriers logo" loading="eager" />
             </a>
         )
     })
@@ -29,8 +28,10 @@ export default function Header({ menuData }: Props) {
     return (
         <div className={styles.container}>
             <header className={styles.header}>
-                <Link href="/" passHref>
-                    <CustomImage />
+                <Link href="/">
+                    <a>
+                        <img src={harriersLogo.src} className={styles.logoImage} alt="Clayton Harriers logo" loading="eager" />
+                    </a>
                 </Link>
 
                 <NavMenu mobileMenuOpen={mobileMenuIsOpen} setMobileMenuOpen={setMobileMenuIsOpen} menuData={menuData} />
