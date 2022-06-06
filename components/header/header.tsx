@@ -15,6 +15,10 @@ export default function Header({ menuData }: Props) {
     const CustomImage = forwardRef<HTMLAnchorElement, any>((props, ref) => {
         return (
             <a href={props.href} ref={ref}>
+                {/*
+                    This image doesn't resolve when you navigate to deeper pages
+                    becuase the leading slash disappears
+                */}
                 <Image src={harriersLogo} width={65} height={65} alt="Clayton Harriers logo" loading="eager" />
             </a>
         )

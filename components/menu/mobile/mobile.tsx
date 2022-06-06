@@ -90,11 +90,15 @@ type CollapsableMenuItemProps = {
 const CollapsableMenuItem = ({ title, children, resetOpen }: CollapsableMenuItemProps) => {
     const [isOpen, setIsOpen] = useState(false)
     const [scrollHeight, setScrollHeight] = useState<number>()
+    const [hasActiveChild, setHasActiveChild] = useState(false)
     const subItems = useRef<HTMLDivElement>(null)
 
-    const hasActiveChild = Array.isArray(children)
-        ? children.some(e => isActiveRoute(e.props.to))
-        : isActiveRoute(children.props.to);
+    useEffect(() => {
+        setHasActiveChild(Array.isArray(children)
+            ? children.some(e => isActiveRoute(e.props.to))
+            : isActiveRoute(children.props.to)
+        )
+    }, [children])
 
     useEffect(() => {
         setIsOpen(hasActiveChild)
@@ -131,7 +135,11 @@ type MenuItemProps = {
 }
 
 const SingleMenuItem = ({ title, to, small = false, closeFunction }: MenuItemProps) => {
-    const isActive = isActiveRoute(to)
+    const [isActive, setIsActive] = useState(false)
+
+    useEffect(() => {
+        setIsActive(isActiveRoute(to))
+    }, [to])
 
     return (
         <StyledLink

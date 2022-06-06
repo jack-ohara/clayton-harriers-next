@@ -26,8 +26,15 @@
 }
 
 .footer {
-    margin: 2rem;
+    margin-block: 2rem 1rem;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.plug {
+    font-size: 0.8rem;
+    color: var(--dark-grey)
 }
 
 @media (max-width: 1200px) {
