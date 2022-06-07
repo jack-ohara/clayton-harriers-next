@@ -137,18 +137,21 @@ type MenuItemProps = {
 const SingleMenuItem = ({ title, to, small = false, closeFunction }: MenuItemProps) => {
     const [isActive, setIsActive] = useState(false)
 
+    const dependencies: any[] = [to]
+    if (typeof window !== "undefined") {
+        dependencies.push(window.location.pathname)
+    }
+
     useEffect(() => {
         setIsActive(isActiveRoute(to))
-    }, [to])
+    }, dependencies)
 
     return (
         <StyledLink
             href={to}
             isActiveRoute={isActive}
             small={small}
-            onClick={() => {
-                isActive && closeFunction()
-            }}
+            onClick={() => closeFunction()}
         >
             {title}
         </StyledLink>
