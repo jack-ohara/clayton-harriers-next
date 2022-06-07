@@ -3,7 +3,7 @@ export default function isActiveRoute(targetRoute: string) {
     // On build (where window is undefined), they all get set to
     // inactive
 
-    return false
+    return targetRoute === "/"
   }
 
   const currentRoute = window.location.pathname.replace(/^\/|\/$/g, '')
