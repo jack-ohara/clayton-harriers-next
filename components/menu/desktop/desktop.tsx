@@ -81,7 +81,7 @@ function MenuItem({
     small = false,
     children,
 }: MenuItemProps) {
-    const [isActive, setIsActive] = useState(isActiveRoute(to))
+    const [isActive, setIsActive] = useState(false)
 
     const dependencies: any[] = [to]
     if (typeof window !== "undefined") {

@@ -15,7 +15,7 @@ type Props = {
 
 export default function NewsPage({ menuData, postDetails }: Props) {
     const [posts, setPosts] = useState(
-        postDetails.slice(0, postsBlockSize) //.map(e => mapCardFields(e))
+        postDetails.slice(0, postsBlockSize)
     )
     const [postsRevealed, setPostsRevealed] = useState(postsBlockSize)
     const [ref, inView] = useInView({})
@@ -29,8 +29,6 @@ export default function NewsPage({ menuData, postDetails }: Props) {
             postsRevealed,
             postsRevealed + postsBlockSize
         )
-
-        // nextPosts = nextPosts.map(e => mapCardFields(e))
 
         setPosts(prevPosts => [...prevPosts, ...nextPosts])
         setPostsRevealed(prev => prev + postsBlockSize)

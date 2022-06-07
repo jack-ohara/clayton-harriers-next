@@ -43,7 +43,7 @@ export default function PostPreview({ post }: Props) {
                                 objectFit="cover"
                                 objectPosition="top"
                             /> :
-                            <Image
+                            <img
                                 src={BannerSVG.src}
                                 alt="Clayton-le-moors Harriers banner logo"
                                 width={320}

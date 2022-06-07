@@ -668,6 +668,7 @@ th {
     padding-right: 0.96667rem;
     padding-top: 0.725rem;
     padding-bottom: calc(0.725rem - 1px);
+    vertical-align: top;
 }
 
 
@@ -718,13 +719,11 @@ th {
 .wp-block-image figure.alignleft {
     float: left;
     margin-right: 1em;
-    margin-bottom: 0;
 }
 
 .wp-block-image figure.alignright {
     float: right;
     margin-left: 1em;
-    margin-bottom: 0;
 }
 
 .wp-block-image figcaption {
