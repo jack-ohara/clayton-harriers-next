@@ -102,7 +102,7 @@ const CollapsableMenuItem = ({ title, children, resetOpen }: CollapsableMenuItem
 
     useEffect(() => {
         setIsOpen(hasActiveChild)
-    }, [resetOpen, children])
+    }, [resetOpen, children, hasActiveChild])
 
     return (
         <>
