@@ -6,6 +6,7 @@ import pageIds from '../utils/wp-page-ids.json'
 import Layout from '../components/layout'
 import { MenuItem, Post } from '../types/wordpress'
 import CardScroller from '../components/card/cardScroller'
+import CentenaryBanner from '../components/centenaryBanner'
 
 type Props = {
   content: string;
@@ -16,6 +17,8 @@ type Props = {
 export default function Home({ content, menuData, recentPostsData }: Props) {
   return (
     <Layout menuData={menuData} setMaxWidth={false} title="Home">
+      <CentenaryBanner />
+      
       <section className={styles.heroSection}>
         <div className={styles.bannerImage}>
           <Image src={bannerPic} alt="clayton runner landscape" layout='intrinsic' />

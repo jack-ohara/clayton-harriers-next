@@ -1,0 +1,55 @@
+.container {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    border-width: 0 0 3px 0;
+    border-style: solid;
+    border-image: linear-gradient(to right, var(--clayton-orange), var(--clayton-orange), var(--dark-grey), var(--clayton-orange), var(--clayton-orange)) 1;
+    background-color: #c5c5c5;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 71px;
+    z-index: 1000;
+    opacity: 0;
+    animation: fadeInAnimation 500ms ease-in 500ms 1 forwards, slide-in 400ms ease-in 400ms 1 forwards;
+}
+
+.container canvas {
+    opacity: 0;
+    animation: fadeInAnimation 500ms ease-in 500ms 1 forwards;
+}
+
+@keyframes fadeInAnimation {
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in {
+    100% {
+        top: 91px;
+    }
+}
+
+.heading {
+    margin: 0;
+    padding: 0.5rem;
+    color: var(--light-grey);
+    -webkit-text-stroke: 0px var(--black);
+    text-shadow: 2px 2px var(--clayton-orange);
+    font-size: 5.5vw;
+}
+
+@media (min-width: 700px) {
+    .heading {
+        -webkit-text-stroke: 1px var(--black);
+        font-size: 2.5rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        top: 0;
+    }
+}
