@@ -1,10 +1,12 @@
 name: Build and deploy
 
-# Controls when the workflow will run
 on:
   push:
     branches: [ "main" ]
   workflow_dispatch:
+
+env:
+  WP_CONTENT_BASE_URL: ${{ secrets.WP_CONTENT_BASE_URL }}
 
 jobs:
   build:
@@ -22,7 +24,6 @@ jobs:
         run: |
           npm ci
 
-      # Runs a single command using the runners shell
       - name: Build and export
         run: npm run build
 
