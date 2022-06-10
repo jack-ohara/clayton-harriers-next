@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import Confetti from "react-confetti"
-import PageHeader from "../PageHeader"
 import Styles from "./CentenaryBanner.module.css"
 
 export default function CentenaryBanner(): JSX.Element {
@@ -8,7 +7,7 @@ export default function CentenaryBanner(): JSX.Element {
     const [confettiHeight, setConfettiHeight] = useState(0)
 
     useEffect(() => {
-        setConfettiWidth(window.innerWidth)
+        setConfettiWidth(window.innerWidth - 15)
         setConfettiHeight(window.innerHeight)
     }, [setConfettiWidth, setConfettiHeight])
 
@@ -17,11 +16,14 @@ export default function CentenaryBanner(): JSX.Element {
             <Confetti
                 width={confettiWidth}
                 height={confettiHeight}
-                numberOfPieces={confettiWidth < 1200 ? 400 : 800}
+                numberOfPieces={confettiWidth < 1200 ? 200 : 800}
                 recycle={false}
+                initialVelocityY={-3}
             />
 
-            <PageHeader className={Styles.heading}>Celebrating 100 years of running!</PageHeader>
+            <div className={Styles.content}>
+                <h3 className={Styles.heading}>Celebrating 100 years of running!</h3>
+            </div>
         </div>
     )
 }
