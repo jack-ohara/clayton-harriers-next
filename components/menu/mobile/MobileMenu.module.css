@@ -81,6 +81,14 @@
     padding-left: 1rem;
 }
 
+.subItemsContainer .navButton {
+    font-size: 1rem;
+}
+
+.subItemsContainer .subItemsContainer .navButton {
+    font-size: 0.9rem;
+}
+
 @media (max-width: 576px) {
     a.navButton,
     button.navButton {
