@@ -5,13 +5,14 @@ type Props = React.PropsWithChildren<LinkProps> & {
   small: boolean;
   isActiveRoute: boolean;
   onClick: () => void;
+  className?: string | undefined;
 }
 
-export default function StyledLink({ small, isActiveRoute, onClick, children, ...rest }: Props) {
+export default function StyledLink({ small, isActiveRoute, onClick, children, className, ...rest }: Props) {
   return (
     <Link {...rest} passHref>
       <a
-        className={`${styles.styledLink} ${small ? styles.small : ""} ${isActiveRoute ? styles.isActiveRoute : ""}`}
+        className={`${className} ${styles.styledLink} ${small ? styles.small : ""} ${isActiveRoute ? styles.isActiveRoute : ""}`}
         onClick={onClick}
       >
         {children}

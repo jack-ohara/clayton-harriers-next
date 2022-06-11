@@ -56,7 +56,24 @@ const getMenuItems = (menuItems: MenuItem[], closeMenuFunction: () => void, isOp
                         resetOpen={!isOpen}
                         key={`collapsable-item-${item.label}`}
                     >
-                        {item.childItems.map(child => (
+                        {item.childItems.map(child => child.childItems.length ? (
+                            <CollapsableMenuItem
+                                key={`child-item-${item.label}-${child.label}`}
+                                title={child.label}
+                                resetOpen={!isOpen}
+                            >
+                                {child.childItems.map(innerChild => (
+                                    <SingleMenuItem
+                                        key={`inner-child-item-${item.label}-${child.label}-${innerChild.label}`}
+                                        title={innerChild.label}
+                                        to={innerChild.url}
+                                        closeFunction={closeMenuFunction}
+                                        small
+                                    />
+                                ))}
+                            </CollapsableMenuItem>
+
+                        ) : (
                             <SingleMenuItem
                                 key={`child-item-${item.label}-${child.label}`}
                                 title={child.label}
@@ -94,23 +111,40 @@ const CollapsableMenuItem = ({ title, children, resetOpen }: CollapsableMenuItem
     const subItems = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        setHasActiveChild(Array.isArray(children)
-            ? children.some(e => isActiveRoute(e.props.to))
-            : isActiveRoute(children.props.to)
-        )
+        let allNestedChildren: JSX.Element[] | undefined
+
+        if (Array.isArray(children)) {
+            allNestedChildren = children
+
+            for (const child of children) {
+                if (child.props.children?.length) {
+                    allNestedChildren = allNestedChildren?.concat(child.props.children)
+                }
+            }
+
+            setHasActiveChild(allNestedChildren.some(e => isActiveRoute(e.props.to)))
+        } else {
+            setHasActiveChild(isActiveRoute(children.props.to))
+        }
     }, [children])
 
     useEffect(() => {
         setIsOpen(hasActiveChild)
     }, [resetOpen, children, hasActiveChild])
 
+    const reEvaluateScrollHeight = (): void => {
+        if (subItems.current) {
+            setScrollHeight(
+                [...subItems.current.children].reduce((acc, curr) => acc + curr.scrollHeight, 0)
+            )
+        }
+    }
+
     return (
         <>
             <button className={`${styles.navButton} ${isOpen ? styles.open : ""} ${hasActiveChild ? styles.hasActiveChild : ""}`}
                 onClick={() => {
-                    if (subItems.current) {
-                        setScrollHeight(subItems.current.scrollHeight)
-                    }
+                    reEvaluateScrollHeight()
                     setIsOpen(!isOpen)
                 }}
             >
@@ -120,7 +154,7 @@ const CollapsableMenuItem = ({ title, children, resetOpen }: CollapsableMenuItem
                     <div />
                 </span>
             </button>
-            <div className={styles.subItemsContainer} style={{ maxHeight: isOpen ? scrollHeight : 0 }} ref={subItems}>
+            <div className={styles.subItemsContainer} style={{ maxHeight: isOpen ? scrollHeight : 0 }} ref={subItems} onClick={reEvaluateScrollHeight}>
                 {children}
             </div>
         </>
@@ -152,6 +186,7 @@ const SingleMenuItem = ({ title, to, small = false, closeFunction }: MenuItemPro
             isActiveRoute={isActive}
             small={small}
             onClick={() => closeFunction()}
+            className={styles.navButton}
         >
             {title}
         </StyledLink>

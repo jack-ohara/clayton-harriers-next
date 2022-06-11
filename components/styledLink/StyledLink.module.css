@@ -4,7 +4,7 @@
     text-decoration: none;
     background-image: none;
     font-size: 2rem;
-    padding: 1.5rem 0;
+    padding: 1.3rem 0;
     color: inherit;
 }
 
@@ -16,7 +16,7 @@
 
 .styledLink.small {
     font-size: 1.5rem;
-    padding: 1rem 0;
+    padding: 0.8rem 0;
 }
 
 .styledLink.isActiveRoute {
@@ -25,9 +25,9 @@
 
 @media (max-width: 576px) {
     .styledLink {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
     }
     .styledLink.small {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
 }
