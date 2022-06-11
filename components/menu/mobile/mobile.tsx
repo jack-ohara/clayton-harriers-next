@@ -152,6 +152,7 @@ const SingleMenuItem = ({ title, to, small = false, closeFunction }: MenuItemPro
             isActiveRoute={isActive}
             small={small}
             onClick={() => closeFunction()}
+            className={styles.navButton}
         >
             {title}
         </StyledLink>

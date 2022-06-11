@@ -26,7 +26,7 @@
 
 .navButton {
     font-size: 2rem;
-    padding: 1.5rem 0;
+    padding: 1.3rem 0;
     font-weight: bold;
     letter-spacing: 0.5rem;
     margin: 0;
@@ -82,7 +82,8 @@
 }
 
 @media (max-width: 576px) {
-    .navButton {
-        font-size: 1.5rem;
+    a.navButton,
+    button.navButton {
+        font-size: 1.2rem;
     }
 }
