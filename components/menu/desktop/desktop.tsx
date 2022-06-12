@@ -1,6 +1,6 @@
 import { MenuItem } from "../../../types/wordpress";
 import styles from "./DesktopMenu.module.css";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import isActiveRoute from "../../../utils/isActiveRoute";
 import Link from "next/link";
 import DropdownArrow from "./components/DropdownArrow";
