@@ -178,6 +178,7 @@ const SingleMenuItem = ({ title, to, small = false, closeFunction }: MenuItemPro
 
     useEffect(() => {
         setIsActive(isActiveRoute(to))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, dependencies)
 
     return (
