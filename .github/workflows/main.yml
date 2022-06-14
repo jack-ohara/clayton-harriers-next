@@ -26,13 +26,30 @@ jobs:
 
       - name: Build and export
         run: npm run build
-
-      - uses: jakejarvis/s3-sync-action@master
+      
+      - uses: actions/upload-artifact@v3
         with:
-          args: --follow-symlinks --delete
-        env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: 'eu-west-2'
-          SOURCE_DIR: 'out'
+          name: site-build-output
+          path: 'out'
+          
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: site-build-output
+          
+      - name: Display structure of downloaded files
+        run: ls -R
+        
+      # - uses: jakejarvis/s3-sync-action@master
+      #   with:
+      #     args: --follow-symlinks --delete
+      #   env:
+      #     AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     AWS_REGION: 'eu-west-2'
+      #     SOURCE_DIR: 'out'
