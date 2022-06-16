@@ -40,6 +40,14 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: site-build-output
+
+      - name: 📂 Sync files to server
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: claytonlemoors.org.uk
+          username: claytors
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /public_html
           
       - name: Display structure of downloaded files
         run: ls -R
