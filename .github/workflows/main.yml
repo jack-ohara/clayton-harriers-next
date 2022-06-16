@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
   repository_dispatch:
-    types: build-and-deploy
+    types: 'WP content updated'
 
 env:
   WP_CONTENT_BASE_URL: ${{ secrets.WP_CONTENT_BASE_URL }}
