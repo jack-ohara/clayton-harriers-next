@@ -47,7 +47,7 @@ jobs:
           server: claytonlemoors.org.uk
           username: claytors
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /public_html
+          server-dir: /public_html/
           
       - name: Display structure of downloaded files
         run: ls -R
