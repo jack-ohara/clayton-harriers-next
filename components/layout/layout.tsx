@@ -8,18 +8,24 @@ type Props = {
     setMaxWidth?: boolean;
     menuData: MenuItem[];
     title: string;
+    centerOnPage?: boolean;
 }
 
-export default function Layout({ children, setMaxWidth = true, title, menuData }: Props) {
+export default function Layout({ children, setMaxWidth = true, title, menuData, centerOnPage = false }: Props) {
     return (
         <>
             <Head>
                 <title>{title} | Clayton-Le-Moors Harriers</title>
+                <meta property="og:title" content={`${title} | Clayton-Le-Moors Harriers`} />
+                <meta name="twitter:title" content={`${title} | Clayton-Le-Moors Harriers`} />
             </Head>
             <div className={styles.container}>
                 <Header menuData={menuData} />
                 <div className={styles.pageWrapper}>
-                    <main style={{ maxWidth: setMaxWidth ? "var(--max-content-width)" : "unset" }} className={styles.contentWrapper}>
+                    <main
+                        style={{ maxWidth: setMaxWidth ? "var(--max-content-width)" : "unset" }}
+                        className={styles.contentWrapper}
+                    >
                         {children}
                     </main>
                     <footer className={styles.footer}>
