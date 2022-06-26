@@ -25,11 +25,10 @@ export default function Slug({ content, title, menuData }: Props) {
 }
 
 export async function getStaticPaths(): Promise<GetStaticPathsResult> {
-  const postSlugs = await getStaticPostSlugs()
-  const pageSlugs = await getStaticPageSlugs()
+  const slugs = [...await getStaticPostSlugs(), ...await getStaticPageSlugs()]
 
   return {
-    paths: [...postSlugs, ...pageSlugs],
+    paths: slugs,
     fallback: false
   }
 }
@@ -51,17 +50,20 @@ export async function getStaticProps({ params }: GetStaticPropsContext) {
 }
 
 async function getEntityBySlug(slug: string): Promise<Page | Post | undefined> {
+  console.log(`Finding entity with slug ${slug}`)
+  const page = await getPageBySlug(slug)
+
+  if (page) return page
+
   const post = await getPostBySlug(slug)
 
   if (post) return post
 
-  const page = await getPageBySlug(slug)
-
-  if (!page) {
+  if (!post) {
     console.error(`Entity not found for slug: ${slug}`)
   }
 
-  return page
+  return post
 }
 
 async function getStaticPostSlugs(): Promise<{ params: { slug: string[]; }; }[]> {
