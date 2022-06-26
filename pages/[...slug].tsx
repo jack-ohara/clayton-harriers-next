@@ -50,7 +50,6 @@ export async function getStaticProps({ params }: GetStaticPropsContext) {
 }
 
 async function getEntityBySlug(slug: string): Promise<Page | Post | undefined> {
-  console.log(`Finding entity with slug ${slug}`)
   const page = await getPageBySlug(slug)
 
   if (page) return page
