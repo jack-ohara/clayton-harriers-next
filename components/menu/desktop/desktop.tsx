@@ -1,6 +1,6 @@
 import { MenuItem } from "../../../types/wordpress";
 import styles from "./DesktopMenu.module.css";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import isActiveRoute from "../../../utils/isActiveRoute";
 import Link from "next/link";
 import DropdownArrow from "./components/DropdownArrow";
@@ -101,6 +101,10 @@ type InnerDropdownMenuItemProps = {
 function InnerDropdownMenuItem({ title, children }: InnerDropdownMenuItemProps): JSX.Element {
     const [hasActiveChild, setHasActiveChild] = useState(false)
 
+    const innerDropdownRef = useRef<HTMLLIElement>(null)
+    const innerDropdownUlRef = useRef<HTMLUListElement>(null)
+    const innerDropdownContainerRef = useRef<HTMLDivElement>(null)
+
     useEffect(() => {
         setHasActiveChild(
             Array.isArray(children)
@@ -109,15 +113,25 @@ function InnerDropdownMenuItem({ title, children }: InnerDropdownMenuItemProps):
         )
     }, [hasActiveChild, children])
 
+    useEffect(() => {
+        if (!innerDropdownRef.current || !innerDropdownUlRef.current || !innerDropdownContainerRef.current) return
+
+        innerDropdownUlRef.current.style.left = `${innerDropdownRef.current.clientWidth}px`
+        innerDropdownContainerRef.current.style.width = `${innerDropdownRef.current.clientWidth + innerDropdownUlRef.current.clientWidth}px`
+        innerDropdownContainerRef.current.style.height = `${innerDropdownUlRef.current.clientHeight}px`
+    }, [innerDropdownRef, innerDropdownUlRef, innerDropdownContainerRef])
+
     return (
-        <li className={styles.innerDropdown}>
+        <li className={styles.innerDropdown} ref={innerDropdownRef}>
             <div className={`${styles.navItemTitle} ${hasActiveChild ? styles.isActiveRoute : ""}`}>
                 <DropdownArrow hasActiveChild={hasActiveChild} />
                 {title}
             </div>
-            <ul>
-                {children}
-            </ul>
+            <div className={styles.innerDropdownContainer} ref={innerDropdownContainerRef}>
+                <ul ref={innerDropdownUlRef}>
+                    {children}
+                </ul>
+            </div>
         </li>
     )
 }
@@ -144,7 +158,7 @@ function MenuItem({
 
     useEffect(() => {
         setIsActive(isActiveRoute(to))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, dependencies)
 
     return (
