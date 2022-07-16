@@ -80,22 +80,18 @@
 .innerDropdown {
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .innerDropdown>ul {
     margin: 0;
-    max-height: 0;
     overflow: hidden;
-    transition: max-height linear 200ms;
 }
 
-.innerDropdown li a {
-    padding-left: 1.5rem !important;
-}
-
-.innerDropdown:hover>ul,
-.innerDropdown:focus-within>ul {
+.dropdown .innerDropdown:hover .innerDropdownContainer,
+.dropdown .innerDropdown:focus-within .innerDropdownContainer {
     max-height: 500px;
+    max-width: 1000px;
 }
 
 .dropdown .innerDropdown .navItemTitle {
@@ -115,6 +111,38 @@
     cursor: default;
     font-weight: bold;
     color: inherit;
+}
+
+.dropdown .innerDropdown .innerDropdownContainer {
+    position: fixed;
+    max-height: 0;
+    max-width: 0;
+    overflow: hidden;
+    /*
+        I could add the transition back at some point, but because
+        they all overlay, it looks really jerky
+    */
+    transition: max-width ease-in 200ms;
+}
+
+.dropdown .innerDropdown .innerDropdownContainer ul {
+    position: absolute;
+    background: var(--light-grey);
+    border-radius: 4px;
+    margin-left: 0;
+    width: max-content;
+}
+
+.dropdown .innerDropdown .innerDropdownContainer ul li a {
+    padding-left: 0.5rem;
+}
+
+.dropdown .innerDropdown .innerDropdownContainer ul li:first-of-type a {
+    border-radius: 4px 4px 0 0;
+}
+
+.dropdown .innerDropdown .innerDropdownContainer ul li:last-of-type a {
+    border-radius: 0 0 4px 4px;
 }
 
 .navItemTitle.isActiveRoute {
